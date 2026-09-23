@@ -36,20 +36,36 @@ export default function VideoModal() {
         className="modal-card"
         style={
           isVertical
-            ? { width: 'min(480px, 92vw)', maxHeight: '92vh', display: 'flex', flexDirection: 'column' }
-            : { width: 'min(860px, 95vw)' }
+            ? {
+                width: 'min(440px, 92vw, calc((88vh - 70px) * 9 / 16))',
+                maxHeight: '92vh',
+                display: 'flex',
+                flexDirection: 'column',
+                background: '#080c14',
+                border: '1px solid rgba(255, 255, 255, 0.14)'
+              }
+            : {
+                width: 'min(940px, 95vw, calc((82vh - 70px) * 16 / 9))',
+                maxHeight: '92vh',
+                display: 'flex',
+                flexDirection: 'column',
+                background: '#080c14',
+                border: '1px solid rgba(255, 255, 255, 0.14)'
+              }
         }
       >
         {directVideo ? (
           <div
             className="modal-player"
             style={{
+              width: '100%',
               aspectRatio: isVertical ? '9/16' : '16/9',
-              maxHeight: isVertical ? '72vh' : '65vh',
-              background: '#050608',
+              background: '#000000',
+              overflow: 'hidden',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              position: 'relative'
             }}
           >
             <video
@@ -57,7 +73,13 @@ export default function VideoModal() {
               controls
               autoPlay
               playsInline
-              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                backgroundColor: '#000000',
+                display: 'block'
+              }}
             />
           </div>
         ) : embedUrl ? (
@@ -79,13 +101,23 @@ export default function VideoModal() {
           </div>
         )}
 
-        <div className="modal-bottom">
-          <span>{activeModal.meta || 'Selected project'}</span>
+        <div
+          className="modal-bottom"
+          style={{
+            background: '#0c111a',
+            borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+            padding: '16px 22px'
+          }}
+        >
+          <span style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '13px', fontWeight: 500 }}>
+            {activeModal.meta || 'Selected project'}
+          </span>
           <div style={{ display: 'flex', gap: '9px' }}>
             <button
               ref={closeButtonRef}
               className="button button-ghost"
               onClick={closeVideoModal}
+              style={{ color: '#ffffff', borderColor: 'rgba(255, 255, 255, 0.2)' }}
             >
               Close
             </button>

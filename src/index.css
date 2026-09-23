@@ -760,14 +760,12 @@ button {
 /* Horizontal Card (16:9 Widescreen) */
 .card-horizontal {
   width: min(840px, 86vw);
-  min-height: 460px;
   aspect-ratio: 16 / 9;
 }
 
 /* Vertical Card (9:16 Portrait Reel) */
 .card-vertical {
   width: clamp(280px, 28vw, 340px);
-  min-height: 520px;
   aspect-ratio: 9 / 16;
 }
 
@@ -1761,11 +1759,11 @@ footer {
 }
 
 .modal-card {
-  border: 1px solid var(--line);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: var(--radius);
   overflow: hidden;
-  background: var(--panel-solid);
-  box-shadow: var(--shadow);
+  background: #080c14;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.08);
   animation: zoomModal 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -1783,7 +1781,18 @@ footer {
 
 .modal-player {
   aspect-ratio: 16/9;
-  background: #000;
+  background: #000000;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.modal-player video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #000000;
+  display: block;
 }
 
 .modal-player iframe {
@@ -1820,10 +1829,11 @@ footer {
   margin: 0;
   font-size: 24px;
   letter-spacing: -0.05em;
+  color: #ffffff;
 }
 
 .modal-video p {
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.7);
   max-width: 420px;
   margin: 9px auto 0;
   font-size: 13px;
@@ -1834,12 +1844,15 @@ footer {
   justify-content: space-between;
   align-items: center;
   gap: 20px;
-  padding: 18px 22px;
+  padding: 16px 22px;
+  background: #0c111a;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .modal-bottom span {
-  color: var(--muted);
-  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 13px;
+  font-weight: 500;
 }
 
 /* Toast */
