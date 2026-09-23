@@ -36,20 +36,34 @@ export default function VideoModal() {
         className="modal-card"
         style={
           isVertical
-            ? { width: 'min(480px, 92vw)', maxHeight: '92vh', display: 'flex', flexDirection: 'column' }
-            : { width: 'min(860px, 95vw)' }
+            ? {
+                width: 'min(460px, 92vw, calc((88vh - 75px) * 9 / 16))',
+                maxHeight: '92vh',
+                display: 'flex',
+                flexDirection: 'column',
+                background: '#0a0e17'
+              }
+            : {
+                width: 'min(940px, 95vw, calc((82vh - 75px) * 16 / 9))',
+                maxHeight: '92vh',
+                display: 'flex',
+                flexDirection: 'column',
+                background: '#0a0e17'
+              }
         }
       >
         {directVideo ? (
           <div
             className="modal-player"
             style={{
+              width: '100%',
               aspectRatio: isVertical ? '9/16' : '16/9',
-              maxHeight: isVertical ? '72vh' : '65vh',
-              background: '#050608',
+              background: '#000000',
+              overflow: 'hidden',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              position: 'relative'
             }}
           >
             <video
@@ -57,7 +71,13 @@ export default function VideoModal() {
               controls
               autoPlay
               playsInline
-              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+                backgroundColor: '#000000',
+                display: 'block'
+              }}
             />
           </div>
         ) : embedUrl ? (
