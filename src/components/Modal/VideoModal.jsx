@@ -42,7 +42,8 @@ export default function VideoModal() {
                 display: 'flex',
                 flexDirection: 'column',
                 background: '#080c14',
-                border: '1px solid rgba(255, 255, 255, 0.14)'
+                border: '1px solid rgba(255, 255, 255, 0.14)',
+                position: 'relative'
               }
             : {
                 width: 'min(940px, 95vw, calc((82vh - 70px) * 16 / 9))',
@@ -50,10 +51,41 @@ export default function VideoModal() {
                 display: 'flex',
                 flexDirection: 'column',
                 background: '#080c14',
-                border: '1px solid rgba(255, 255, 255, 0.14)'
+                border: '1px solid rgba(255, 255, 255, 0.14)',
+                position: 'relative'
               }
         }
       >
+        {/* Floating Top-Right Close Button */}
+        <button
+          type="button"
+          className="modal-close-corner-btn"
+          onClick={closeVideoModal}
+          aria-label="Close modal"
+          style={{
+            position: 'absolute',
+            top: '12px',
+            right: '12px',
+            zIndex: 10,
+            width: '34px',
+            height: '34px',
+            borderRadius: '50%',
+            background: 'rgba(0, 0, 0, 0.65)',
+            backdropFilter: 'blur(8px)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            color: '#ffffff',
+            fontSize: '15px',
+            lineHeight: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            padding: 0
+          }}
+        >
+          ✕
+        </button>
+
         {directVideo ? (
           <div
             className="modal-player"
@@ -106,27 +138,97 @@ export default function VideoModal() {
           style={{
             background: '#0c111a',
             borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-            padding: '16px 22px'
+            padding: isVertical ? '14px 16px' : '16px 22px',
+            display: 'flex',
+            flexDirection: isVertical ? 'column' : 'row',
+            alignItems: isVertical ? 'stretch' : 'center',
+            justifyContent: 'space-between',
+            gap: isVertical ? '12px' : '16px'
           }}
         >
-          <span style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '13px', fontWeight: 500 }}>
-            {activeModal.meta || 'Selected project'}
-          </span>
-          <div style={{ display: 'flex', gap: '9px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', minWidth: 0 }}>
+            <span
+              style={{
+                color: '#ffffff',
+                fontSize: '14px',
+                fontWeight: 600,
+                letterSpacing: '-0.01em',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              {activeModal.title || 'Selected film'}
+            </span>
+            <span
+              style={{
+                color: 'rgba(255, 255, 255, 0.65)',
+                fontSize: '12px',
+                fontWeight: 500,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              {activeModal.meta || 'Selected project'}
+            </span>
+          </div>
+
+          <div
+            style={{
+              display: 'flex',
+              gap: '10px',
+              flexShrink: 0,
+              width: isVertical ? '100%' : 'auto'
+            }}
+          >
             <button
               ref={closeButtonRef}
-              className="button button-ghost"
+              type="button"
+              className="modal-action-btn modal-btn-close"
               onClick={closeVideoModal}
-              style={{ color: '#ffffff', borderColor: 'rgba(255, 255, 255, 0.2)' }}
+              style={{
+                flex: isVertical ? 1 : 'none',
+                padding: '10px 18px',
+                borderRadius: '999px',
+                background: 'rgba(255, 255, 255, 0.08)',
+                border: '1px solid rgba(255, 255, 255, 0.18)',
+                color: '#ffffff',
+                fontSize: '13px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textDecoration: 'none'
+              }}
             >
               Close
             </button>
             {activeModal.video && (
               <a
-                className="button button-primary"
+                className="modal-action-btn modal-btn-open"
                 href={encodeURI(activeModal.video)}
                 target="_blank"
                 rel="noopener noreferrer"
+                style={{
+                  flex: isVertical ? 1 : 'none',
+                  padding: '10px 18px',
+                  borderRadius: '999px',
+                  background: 'var(--accent, #87e64b)',
+                  border: '1px solid var(--accent, #87e64b)',
+                  color: '#080c14',
+                  fontSize: '13px',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px',
+                  textDecoration: 'none'
+                }}
               >
                 Open film ↗
               </a>
