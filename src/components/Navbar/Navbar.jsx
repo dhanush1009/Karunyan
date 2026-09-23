@@ -6,7 +6,7 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
 
-  const brandMark = (data.name?.trim()[0] || 'G').toUpperCase();
+  const brandMark = (data.name?.trim()[0] || 'K').toUpperCase();
 
   // Scrollspy to set active section
   useEffect(() => {
