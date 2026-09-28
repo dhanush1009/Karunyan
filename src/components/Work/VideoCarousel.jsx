@@ -16,17 +16,32 @@ export default function VideoCarousel({
 
   const isVertical = variant === 'vertical';
 
+  const getCardMetrics = () => {
+    if (!trackRef.current) return { cardWidth: 320, step: 340 };
+    const firstCard = trackRef.current.querySelector('.carousel-card');
+    if (!firstCard) {
+      return { cardWidth: trackRef.current.clientWidth, step: trackRef.current.clientWidth };
+    }
+    const cardRect = firstCard.getBoundingClientRect();
+    const style = window.getComputedStyle(trackRef.current);
+    const gap = parseFloat(style.columnGap || style.gap) || 24;
+    return {
+      cardWidth: cardRect.width,
+      step: cardRect.width + gap
+    };
+  };
+
   const checkScroll = () => {
     if (trackRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = trackRef.current;
       setCanScrollLeft(scrollLeft > 10);
       setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
 
-      // Estimate current card index
-      const cardWidth = isVertical ? 320 + 24 : clientWidth * 0.9;
+      // Estimate current card index using dynamic card step
+      const { step } = getCardMetrics();
       const index = Math.min(
         videos.length - 1,
-        Math.max(0, Math.round(scrollLeft / cardWidth))
+        Math.max(0, Math.round(scrollLeft / (step || 1)))
       );
       setCurrentIndex(index);
     }
@@ -47,9 +62,8 @@ export default function VideoCarousel({
 
   const scroll = (direction) => {
     if (trackRef.current) {
-      const scrollAmount = isVertical
-        ? trackRef.current.clientWidth * 0.75
-        : trackRef.current.clientWidth * 0.95;
+      const { step } = getCardMetrics();
+      const scrollAmount = step || trackRef.current.clientWidth;
       trackRef.current.scrollBy({
         left: direction === 'next' ? scrollAmount : -scrollAmount,
         behavior: 'smooth'
@@ -88,22 +102,24 @@ export default function VideoCarousel({
           <span className="carousel-counter mono">
             {String(currentIndex + 1).padStart(2, '0')} / {String(videos.length).padStart(2, '0')}
           </span>
-          <button
-            className={`carousel-nav-btn ${!canScrollLeft ? 'disabled' : ''}`}
-            onClick={() => scroll('prev')}
-            disabled={!canScrollLeft}
-            aria-label="Previous videos"
-          >
-            ‹
-          </button>
-          <button
-            className={`carousel-nav-btn ${!canScrollRight ? 'disabled' : ''}`}
-            onClick={() => scroll('next')}
-            disabled={!canScrollRight}
-            aria-label="Next videos"
-          >
-            ›
-          </button>
+          <div className="carousel-nav-arrows">
+            <button
+              className={`carousel-nav-btn ${!canScrollLeft ? 'disabled' : ''}`}
+              onClick={() => scroll('prev')}
+              disabled={!canScrollLeft}
+              aria-label="Previous videos"
+            >
+              ‹
+            </button>
+            <button
+              className={`carousel-nav-btn ${!canScrollRight ? 'disabled' : ''}`}
+              onClick={() => scroll('next')}
+              disabled={!canScrollRight}
+              aria-label="Next videos"
+            >
+              ›
+            </button>
+          </div>
         </div>
       </div>
 

@@ -7,8 +7,15 @@ export default function VideoModal() {
   const closeButtonRef = useRef(null);
 
   useEffect(() => {
-    if (activeModal.isOpen && closeButtonRef.current) {
-      closeButtonRef.current.focus();
+    if (activeModal.isOpen) {
+      if (closeButtonRef.current) {
+        closeButtonRef.current.focus();
+      }
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = prevOverflow;
+      };
     }
   }, [activeModal.isOpen]);
 
@@ -37,22 +44,24 @@ export default function VideoModal() {
         style={
           isVertical
             ? {
-                width: 'min(440px, 92vw, calc((88vh - 70px) * 9 / 16))',
-                maxHeight: '92vh',
+                width: 'min(420px, 100%, calc((86dvh - 70px) * 9 / 16))',
+                maxHeight: 'calc(100dvh - 28px)',
                 display: 'flex',
                 flexDirection: 'column',
                 background: '#080c14',
                 border: '1px solid rgba(255, 255, 255, 0.14)',
-                position: 'relative'
+                position: 'relative',
+                margin: 'auto'
               }
             : {
-                width: 'min(940px, 95vw, calc((82vh - 70px) * 16 / 9))',
-                maxHeight: '92vh',
+                width: 'min(920px, 100%, calc((82dvh - 70px) * 16 / 9))',
+                maxHeight: 'calc(100dvh - 28px)',
                 display: 'flex',
                 flexDirection: 'column',
                 background: '#080c14',
                 border: '1px solid rgba(255, 255, 255, 0.14)',
-                position: 'relative'
+                position: 'relative',
+                margin: 'auto'
               }
         }
       >
@@ -141,6 +150,7 @@ export default function VideoModal() {
             padding: isVertical ? '14px 16px' : '16px 22px',
             display: 'flex',
             flexDirection: isVertical ? 'column' : 'row',
+            flexWrap: 'wrap',
             alignItems: isVertical ? 'stretch' : 'center',
             justifyContent: 'space-between',
             gap: isVertical ? '12px' : '16px'
